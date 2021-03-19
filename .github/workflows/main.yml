@@ -3,7 +3,7 @@ name: CI
 on: [push, pull_request]
 
 jobs:
-  build:
+  build-linux:
 
     runs-on: ubuntu-latest
 
@@ -17,3 +17,16 @@ jobs:
       with:
           name: bedtools.static
           path: bin/bedtools.static
+
+  build-macos:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Compile and test Bedtools
+      run: make -j $(nproc) && make test
+    - uses: actions/upload-artifact@v1
+      with:
+          name: bedtools-macos
+          path: bin/bedtools

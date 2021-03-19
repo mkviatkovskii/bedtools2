@@ -48,6 +48,23 @@ If you need to override the location of the zlib library used to compile bedtool
 
     make LIBS='/PATH/TO/ZLIB/lib/libz.a'
 
+--------------------------------------------------
+Can I build a static executable on macOS?
+--------------------------------------------------
+No, static executables are not supported on macOS. If you try to run ``make static`` on macOS, you will get the following error:
+.. code-block::
+    ld: library not found for -lcrt0.o
+However, even non-static executable depends only on dynamic libraries that macOS has out of box:
+.. code-block:: bash
+    $ otool -L bin/bedtools
+    bin/bedtools:
+            /usr/lib/libz.1.dylib (compatibility version 1.0.0, current version 1.2.11)
+            /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1281.100.1)
+            /usr/lib/libbz2.1.0.dylib (compatibility version 1.0.0, current version 1.0.5)
+            /usr/lib/liblzma.5.dylib (compatibility version 6.0.0, current version 6.3.0)
+            /usr/lib/libc++.1.dylib (compatibility version 1.0.0, current version 902.1.0)
+So just use usual non-static executable.
+
 ====================
 General questions
 ====================
